@@ -18,11 +18,11 @@
 
 " Only load once {{{1
 if exists('g:TagmaLastloaded') || &cp || !exists("*strftime")
-    finish
+    "finish
 endif
 let g:TagmaLastloaded= 1
 
-" Defaults {{{1
+" Defaults: {{{1
 function! s:SetDefault(option, default)
     if !exists(a:option)
         execute 'let ' . a:option . '=' . string(a:default)
@@ -54,7 +54,12 @@ call s:SetDefault('g:TagmaLastUseUndoJoin',     0)
 " No need for the function any longer.
 delfunction s:SetDefault
 
-" User Commands {{{1
+" Internal Settings: {{{1
+
+" Detect if the timezone format is broken.
+let g:TagmaLastBrokenTZ = strftime('%Z') =~ '\s'
+
+" User Commands: {{{1
 
 " Disable auto updates.
 command! -nargs=0 TagmaLastDisable call s:AutoupdateDisable()
@@ -65,15 +70,15 @@ command! -nargs=0 TagmaLastEnable call s:AutoupdateEnable()
 " Update the 'Last Changed' line.
 command! -nargs=0 UpdateLast call s:UpdateLastChanged()
 
-" Plugin Mapping {{{1
+" Plugin Mapping: {{{1
 noremap <unique> <script> <Plug>UpdateLast :call <SID>UpdateLastChanged()<CR>
 
-" Global Key Mapping {{{1
+" Global Key Mapping: {{{1
 if g:TagmaLastKeyMap != '' && !hasmapto('<Plug>UpdateLast')
     execute 'map <silent> <unique> ' . g:TagmaLastKeyMap . ' <Plug>UpdateLast'
 endif
 
-" Automatic Updates {{{1
+" Automatic Updates: {{{1
 if g:TagmaLastAutoUpdate
     call s:AutoupdateEnable()
 endif
@@ -129,7 +134,7 @@ function! s:UpdateLastChanged()
     " three character version then adjust the time format.
     " This is an issue primarily on Windows.
     let l:time_format = g:TagmaLastTimeFormat
-    if l:time_format =~ '%Z' && strftime('%Z') =~ '\s'
+    if l:time_format =~ '%Z' && g:TagmaLastBrokenTZ
         let l:time_zone = substitute(strftime('%Z'), '\(\w\)\w\+\s*', '\1', 'g')
         let l:time_format = substitute(l:time_format, '%Z', l:time_zone, '')
     endif
