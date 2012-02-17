@@ -1,7 +1,7 @@
 " vim:foldmethod=marker
 " =============================================================================
 " File:         TagmaLast.vim (Plugin)
-" Last Changed: Fri Feb 03 12:27 PM 2012 EST
+" Last Changed: Fri Feb 17 12:22 PM 2012 EST
 " Maintainer:   Lorance Stinson AT Gmail...
 " License:      Public Domain
 "
@@ -18,7 +18,7 @@
 
 " Only load once {{{1
 if exists('g:TagmaLastloaded') || &cp || !exists("*strftime")
-    "finish
+    finish
 endif
 let g:TagmaLastloaded= 1
 
