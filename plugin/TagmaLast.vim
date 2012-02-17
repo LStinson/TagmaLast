@@ -75,7 +75,7 @@ endif
 
 " Automatic Updates {{{1
 if g:TagmaLastAutoUpdate
-    call s:AutoupdateEnable()
+    autocmd VimEnter * call s:AutoupdateEnable()
 endif
 
 " Function: s:AutoupdateDisable -- Disable automatic updates on write. {{{1
